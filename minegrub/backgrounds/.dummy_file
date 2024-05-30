@@ -1,0 +1,9 @@
+Si vas a usar el script de actualización y quieres que el fondo de pantalla
+sea aleatorio, añade aquí todas las imágenes que quieras para que el script
+update_theme.py elija aleatoriamente uno de entre todos los archivos,
+excepto los ocultos (los que empiezan con un punto, como éste que estás leyendo)
+y lo copiará como `../background.png.`
+
+Este archivo sólo es necesario para forzar a git a crear el directorio `backgrounds/`
+ya que no es posible agregar directorios vacíos. Puedes eliminar este archivo de tu 
+instalación local una vez que se haya creado el directorio `backgrounds/`.

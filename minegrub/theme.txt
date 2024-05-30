@@ -1,0 +1,165 @@
+# Global
+
+title-text: ""
+desktop-image: "background.png"
+
+# Terminal para la consola y las opciones
+terminal-border: "20"
+terminal-left: "10%"
+terminal-top: "10%+23"
+terminal-width: "80%"
+terminal-height: "80%"
+terminal-box: "term_*.png"
+terminal-font: "Monocraft Regular 21"
+
+# Texto Blanco 
++ boot_menu {
+	# como no tenemos ningún pixmap aquí, se alinea de forma extraña
+	# el pixmap superior tiene 17px de altura
+	# el pixmap izquierdo tiene 6px de ancho
+	# el texto tiene que estar 3 píxeles por encima y 3 píxeles a la izquierda
+	left = 50%-297 
+	top = 40%+14
+	width = 600
+	height = 500
+
+	item_font = "Minecraft Regular 29"
+	item_color = "#ffffff"
+	selected_item_color = "#ffffa0"
+	item_height = 34
+	item_padding = 0
+	item_spacing = 38
+	scrollbar = false
+}
+
+
++ boot_menu {
+	left = 50%-300
+	top = 40%
+	width = 600
+	height = 500
+
+	item_font = "Minecraft Regular 29"
+	item_color = "#383838"
+	selected_item_color = "#3f3f28"
+	item_height = 34
+	item_padding = 0
+	item_spacing = 38
+	item_pixmap_style = "item_*.png"
+	selected_item_pixmap_style = "selected_item_*.png"
+	scrollbar = false
+}
+
+
+
++ image {
+	# el ancho de la imagen estática de la parte de abajo es 744
+	left = 50%-372
+
+	# N es la cantidad de opciones de arranque (cada elemento es (42 alto + 30 separación) = 72px de altura)
+	# top = 40%+( 72 * N + 26 )
+	#
+	### +170 (para 2 opciones de arranque)
+	### +386 (para 3 opciones de arranque)
+	### +242 (para 4 opciones de arranque)
+	### +314 (para 5 opciones de arranque)
+	### +386 (para 6 opciones de arranque)
+	### +458 (para 7 opciones de arranque)
+	### +530 (para 8 opciones de arranque)
+	###
+	############### CAMBIAR EL VALOR AQUÍ ################
+
+	top = 40%+314
+
+	### No poner espacios entre los valores a sumar
+	##################################################
+
+	file = "static_bar.png"
+}
+
++ image {
+	# el ancho de la imagen del logo es 1200, pero el centro de la misma está en x=400
+	left = 50%-400
+	top = 0
+	file = "logo.png"	
+}
+
+# TEXTO 
++ label {	
+	left = 6
+	top = 100%-61
+	height = 54
+	width = 200
+
+	text = "Minegrub 2.0.0"
+	font = "Minecraft Regular 30"
+	color = "white"
+}
+
+# SOMBRA 
++ label {
+	left = 9
+	top = 100%-58
+	height = 54
+	width = 200
+
+	text = "Minegrub 2.0.0"
+	font = "Minecraft Regular 30"
+	color = "#3f3f3f"
+}
+
+# TEXTO
++ label {	
+	left = 6
+	top = 100%-31
+	height = 54
+	width = 200
+
+	text = "1165 Paquetes Instalados"
+	font = "Minecraft Regular 30"
+	color = "white"
+}
+
+# SOMBRA
++ label {
+	left = 9
+	top = 100%-28
+	height = 54
+	width = 200
+
+	text = "1165 Paquetes Instalados"
+	font = "Minecraft Regular 30"
+	color = "#3f3f3f"
+}
+
+# TEXTO 
++ label {
+	id = "__timeout__"
+	
+	left = 50%
+	top = 100%-31
+	height = 24
+	width = 50%-6	
+	
+	text = "Uniéndose al mundo en %d segundos"
+	align = "right"
+	font = "Minecraft Regular 30"
+	color = "white"
+}
+
+# SOMBRA 
++ label {
+	id = "__timeout__"
+
+	left = 50%+3
+	top = 100%-28
+	height = 24
+	width = 50%-6
+
+	text = "Uniéndose al mundo en %d segundos"
+	align = "right"
+	font = "Minecraft Regular 30"
+	color = "#3f3f3f"
+}
+
+
