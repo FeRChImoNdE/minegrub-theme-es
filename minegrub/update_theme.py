@@ -12,22 +12,22 @@ from PIL import Image, ImageDraw, ImageFont
 import hashlib
 
 def update_splash(slogan: str) -> None:
-    # Choose random splash text
-    if slogan: # I just want it
+    # Elige una línea aleatoria.
+    if slogan: # Si tenemos uno como argumento ya está
         splash_text = slogan
     else:
         splash_text = random.choice(text_options)
-        # Use cached image if it exists
+        # Utiliza la imagen en caché si existe
         splash_file = cache_file_name(splash_text)
         if os.path.isfile(splash_file):
             return use_logo(splash_text, splash_file)
     font = ImageFont.truetype(f"{assetdir}/MinecraftRegular-Bmg3.otf", font_size)
     img = Image.open(f"{assetdir}/logo_clear.png")
     original_size = img.size
-    # Rotate image before drawing text
+    # Rota la imagen antes de dibujar el texto
     img = img.rotate(360 - angle, expand=True)
     d = ImageDraw.Draw(img)
-    # Draw text and shadow
+    # Dibuja el texto y la sombra
     if text_shadow:
         d.text(
             (
@@ -37,9 +37,9 @@ def update_splash(slogan: str) -> None:
             splash_text, fill=shadow_color, anchor="ms", font=font,
         )
     d.text(text_coords, splash_text, fill=text_color, anchor="ms", font=font)
-    # Rotate image back to original angle
+    # Rota la imagen de nuevo a su ángulo original
     img = img.rotate(angle, expand=True)
-    # Mathy stuff (crop image back to original size)
+    # Cosas de mates (recorta la imagen a su tamaño original)
     coordinates = (
         (img.size[0] - original_size[0]) / 2,
         (img.size[1] - original_size[1]) / 2,
@@ -47,16 +47,16 @@ def update_splash(slogan: str) -> None:
         (img.size[1] + original_size[1]) / 2,
     )
     new = img.crop(coordinates)
-    # no cache here if you want what you like
+    # No cacheamos si ya nos han pasado el parámetro
     if slogan:
-        print(f"Using splash from CLI: '{splash_text}'.")
+        print(f"Usando el texto desde línea de comandos: '{splash_text}'.")
         new.save(f"{themedir}/logo.png")
     else:
         new.save(splash_file)
         use_logo(splash_text, splash_file)
 
 def use_logo(splash_text: str, splash_file: str):
-    print(f"Using splash {splash_file}: '{splash_text}'.")
+    print(f"Usando el siguiente texto desde el archivo {splash_file}: '{splash_text}'.")
     shutil.copyfile(splash_file, f"{themedir}/logo.png")
 
 def cache_file_name(splash_text: str) -> str:
@@ -75,7 +75,7 @@ def update_package_count() -> None:
     text = "Paquetes Instalados"
     old_lines = path.read_text().splitlines(keepends=False)
     new_line = f'\ttext = "{packages} {text}"'
-    # Replace lines that have {text} to {new_line}
+    # Sustituye las líneas que tienen {text} a {new_line}
     for i, old_line in enumerate(old_lines):
         if text in old_line:
             patch(path, i, new_line)
@@ -96,24 +96,24 @@ def get_args() -> (str, str):
     elif argv_len == 3:
         return sys.argv[1], sys.argv[2]
     else:
-        print(f"WARNING: expected at most 2 arguments, but got {len(sys.argv)}.", file=sys.stderr)
+        print(f"AVISO: se esperaban como mucho arguments, pero tengo {len(sys.argv)}.", file=sys.stderr)
         return sys.argv[1], sys.argv[2]
 
 def update_background(background_file = "") -> None:
-    if background_file == "":   # no background given, chose randomly
-        list_background_files = [f for f in os.listdir(f"{themedir}/backgrounds/") if f[0] != '.'] # ignore hidden files
+    if background_file == "":   # si no especifica fondo, escogemos aleatoriamente
+        list_background_files = [f for f in os.listdir(f"{themedir}/backgrounds/") if f[0] != '.'] # ignora ocultos
         if len(list_background_files) == 0:
-            print("No background files available to choose from, background will remain unchanged.", file=sys.stderr)
-            return  # do nothing if there is no file to use
+            print("No hay archivos de fondo disponibles para elegir, por lo que permanecerá sin cambios.", file=sys.stderr)
+            return  # no hace nada si no hay archivos
         background_file = f"{themedir}/backgrounds/{random.choice(list_background_files)}"
-    elif not os.path.isfile(background_file):   # background given, check if file exists
-        print(f"ERROR: The file {background_file} does not exist.", file=sys.stderr)
+    elif not os.path.isfile(background_file):   # pasa un fondo como argumento, comprobamos que existe
+        print(f"ERROR: El archivo {background_file} no existe.", file=sys.stderr)
         quit(1)
     shutil.copyfile(background_file, f"{themedir}/background.png")
-    print(f"Using background '{background_file}'.")
+    print(f"Usando como fondo '{background_file}'.")
 
 if __name__ == "__main__":
-    # Annoying dir path things
+    # Cosas molestas de la ruta
     themedir = dirname(abspath(__file__))
     if not os.path.isdir(f"{themedir}/cache"):
         os.mkdir(f"{themedir}/cache")

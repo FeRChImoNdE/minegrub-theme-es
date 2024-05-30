@@ -7,7 +7,7 @@
 ¡Todavía atascado en Vim!
 ¡No vendas tus datos!
 ¡Ahora con Rust!
-¡Lleno de Distros!
+¡Está lleno de Distros!
 ¡Haz copias y redistribuye!
 ¡Puede contener trazas de pingüinos!
 ¡Apoya a los desarrolladores de Software Libre!

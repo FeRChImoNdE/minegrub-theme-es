@@ -1,5 +1,5 @@
 [Unit]
-Description=servicio de actualizacion del tema minegrub para grub
+Description=Servicio de actualizacion del tema minegrub
 After=hibernate.target
 
 [Service]

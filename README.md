@@ -1,50 +1,62 @@
-**The Minecraft Grub Theme Trio:**
+**El trío de temas de Minecraft para Grub:**
 
-| *> Minecraft Main Menu <* | [Minecraft World Selection Menu](https://github.com/Lxtharia/minegrub-world-sel-theme) | [Using both themes together](https://github.com/Lxtharia/double-minegrub-menu) |
+| *> Menú Principal de Minecraft (Traducido) <* | [Minecraft World Selection Menu](https://github.com/Lxtharia/minegrub-world-sel-theme) | [Using both themes together](https://github.com/Lxtharia/double-minegrub-menu) |
 | --- | --- | --- |
 
+Enlace al Tema orginal: [Minegrub Theme](https://github.com/Lxtharia/minegrub-theme)
+
+**Acerca de la traducción**: *Por el momento sólo está completada la primera de las opciones (Menú principal). Iré completando el resto a mi ritmo :-) Gracias por vuestra comprensión.*
+
 # Minegrub
-A Grub Theme in the style of Minecraft!
+¡Un tema para Grub al estilo de Minecraft!
 
 
 ![Minegrub Preview "Screenshot"](resources/preview_minegrub.png)
 
-# Installation
-> ### Note: grub vs grub2
-> - If you have a `/boot/grub2` folder instead of a `/boot/grub` folder , you need to adjust the file paths mentioned here and in the `minegrub-update.service` file
-> - Also if you're not sure, run `grub-mkconfig -V` to check if you have grub version 2 (you should have)
+# Instalación
+> ### Nota: grub vs grub2 <a name="grub"></a>
+> - Independientemente de cuál sea tu distribución, lo más probable es que venga con una **versión > 2 de grub.**
+> - Algunas distribuciones han mantenido el nombre original de la herramienta de configuración por razones de compatibilidad, mientras que otras añadieron un "2" como muestra del avance entre versiones.
+> - Como norma general, las derivadas de **Debian** y **Ubuntu**, así como también **Arch** trabajan con el ejecutable **`grub-mkconfig`** (y por tanto la configuración irá a `/boot/grub/`), mientras que las derivadas de **Red Hat** y **Fedora** lo hacen con **`grub2-mkconfig`** (y por ende la configuración irá en `/boot/grub2/`). No obstante, ante la duda y las cientos de posibilidades existentes, lo mejor será que intentes ejecutar los comandos (para ver cuál es el que funciona en tu caso) y comprobar la ruta con la que trabaja tu equipo.
+> - Todo esto quiere decir que si tienes la carpeta `/boot/grub2` en lugar de `/boot/grub` tendrás que hacer unos pequeños ajustes a las rutas mencionadas en ésta guía, así como modificar una línea del archivo `minegrub-update.service` (si quieres hacer uso de ésta herramienta, hablaremos sobre esto más adelante).
 
-### Manually
+### Manualmente
 
-- Clone this repository
+- Clona éste repositorio y entra en la carpeta que se creará:
 ```
-git clone https://github.com/Lxtharia/minegrub-theme.git
+git clone https://github.com/FeRChImoNdE/minegrub-theme-es.git && cd minegrub-theme-es
 ```
-- (optional) Choose a background
+- (Opcional) Elige un fondo de pantalla con: (O copia la imagen que prefieras como `minegrub/background.png`)
 ```
-./choose-background.sh  # or just copy a custom image to minegrub/background.png
+./choose-background.sh
 ```
-  - If you want to use the update script, copy an arbitrary number of images you would like to use to `minegrub/backgrounds/`. You can find some options in `background_options/` but you can also use your own images.
-  - If you do not want to use the update script or if you always want to use the same background, you can use `./choose-background.sh` or just copy a custom image to `minegrub/background.png`
+  - Si vas a hacer uso del script de actualización, puedes poner el número de imágenes que quieras en la carpeta `minegrub/backgrounds/`. Encontrarás algunos ejemplos en `background_options/` pero puedes usar cualquier otra imagen que te apetezca.
+  - Si no vas a hacer uso del script, o si prefieres que se muestre siempre el mismo fondo, puedes usar `./choose-background.sh` para escoger una de las que vienen predefinidas o directamente hacer una copia de una de ellas como `minegrub/background.png`
 
-- Copy the folder to your boot partition: (for info: `-ruv` = recursive, update, verbose)
+- Copia la carpeta a la partición de arranque: (info: `-ruv` = recursive, update, verbose)
 ```
-cd ./minegrub-theme
+cd ./minegrub-theme-es
 sudo cp -ruv ./minegrub /boot/grub/themes/
 ```
-- Change/add this line in your `/etc/default/grub`:
+- Cambia o añade esta línea en `/etc/default/grub`: [*(¡Elige la que utilice tu distro!)*](#grub)
 ```
-GRUB_THEME=/boot/grub/themes/minegrub/theme.txt
-```
-- Update your live grub config by running
-```
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-- You're good to go!
+GRUB_THEME=/boot/grub/themes/minegrub/theme.txt     # Debian, Ubuntu, Arch Linux... y sus derivados (normalmente)
 
-### NixOS module (flake)
+GRUB_THEME=/boot/grub2/themes/minegrub/theme.txt    # Red Hat, Fedora... y sus derivados (normalmente)
+```
+- **NOTA**: Antes de guardar y pasar al siguiente paso [mira esto](#style).
 
-<details><summary>This is a minimal example</summary>
+- Actualiza la configuración mediante: [*(¡Elige la que utilice tu distro!)*](#grub)
+```
+sudo grub-mkconfig -o /boot/grub/grub.cfg           # Debian, Ubuntu, Arch Linux... y sus derivados (normalmente)
+
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg         # Red Hat, Fedora... y sus derivados (normalmente)
+```
+- **¡Estamos listos!**
+
+### Módulo para NixOS (flake)
+
+<details><summary>Aquí tienes un ejemplo muy escueto</summary>
 
 ```nix
 # flake.nix
@@ -77,53 +89,59 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 </details>
 
-# Configuration
+# Configuración
 
-## Adjusting for a different amount of boot options:
-- When you have more/less than 4 boot options, you might want to adjust the height of the bottom bar (that says "Options" and "Console")
-- The formula and some precalculated values (for 2,3,4,5... boot options) are in the `theme.txt`, so you should be able to easily change it to the correct value.
+## Ajuste según el número de opciones de arranque
+- El menú por defecto está diseñado para 4 botones (opciones de arranque, configuraciones, etc...)
+- En caso de tener un número mayor o menor, es necesario realizar un pequeño ajuste a la barra inferior, en la que aparecen los botones `"E para Opciones"` y `"C para Consola"`
+- Dentro del archivo `theme.txt` encontrarás una fórmula explicando a fondo cómo funciona, pero para no complicarte demasiado también se ha incluído una tabla con valores precalculados **entre 2 y 8 opciones**, más que suficiente para cubrir la mayoría de casos, por lo que podrás ajustarlo fácilmente aplicando el valor correcto.
 
-## Random splash texts and accurate "x Packages Installed" text!
-The `update_theme.py` script chooses a random line from `assets/splashes.txt` and generates and replaces the `logo.png` which holds the splash text, as well as updates the amount of packages currently installed. It also randomly chooses a file from `backgrounds/` (ignoring hidden files beginning with a dot) as the background image.
-- Make sure `neofetch` is installed
-- Make sure Python 3 (or an equivalent) and the Pillow python package are installed
-  - Install Pillow either with the python-pillow package from the AUR or with
+## Mensajes de bienvenida aleatorios "*à la*" Minecraft y número <u>real</u> de paquetes instalados
+El script `update_theme.py` escoge una línea aleatoria del archivo `assets/splashes.txt`, generando y reemplazando el `logo.png` con una nueva frase de bienvenida (¡al más puro estilo de Minecraft!), y además es capaz de actualizar la cantidad real de paquetes instalados en tu sistema. Por si esto fuera poco también escoge aleatoriamente un archivo de la carpeta `backgrounds/` y lo establece como fondo de pantalla. Aquí la particularidad es que ignora todos los archivos ocultos (en UNIX, todo lo que empieza por `"."` un punto). Para ello necesitaremos lo siguiente:
+
+- Tener `neofetch` instalado.
+- Tener `python3` (o equivalente) con el paquete Pillow instalado.
+  - Se puede instalar de varias formas, como el paquete `python-pillow` de AUR para Arch, o mediante pip3, p.ej.:
     `sudo -H pip3 install pillow`
-  - It's important to use `sudo -H`, because it needs to be available for the root user
-- To add new splash texts simply edit `./minegrub/assets/splashes.txt` and add them to the file.
-- Put all backgrounds you want to randomly choose from in `./minegrub/backgrounds/`. Hidden files (i.e. filenames beginning with a dot) will be ignored. You can also add your own images.
-- If you want to get a specific splash and/or background for the next boot, run `python update_theme.py [BACKGROUND_FILE [SPLASH]]`, e.g. `python update_theme.py 'backgrounds/1.15 - [Buzzy Bees].png' 'Splashing!'`
-  - Empty string parameters will be replaced by a random choice, e.g. `python update_theme.py '' 'Splashing!'` for a random background and the splash `Splashing!`.
+  - Es importante el uso de `sudo -H`, ya que tiene que estar disponible para el usuario root.
+- Para añadir nuevos mensajes, simplemente edita `./minegrub/assets/splashes.txt` y añade (o quita) líneas a tu gusto.
+- Puedes poner todos los fondos que quieras en la carpeta `./minegrub/backgrounds/`. Los *Archivos Ocultos* se ignoran. También puedes añadir tus propias imágenes.
+- Si quieres un mensaje y/o fondo específico para el siguiente arranque, el escript admite dos parámetros: 
+`python update_theme.py ['ARCHIVO_DE_FONDO' ['MENSAJE']]`, p.ej.: `python update_theme.py 'backgrounds/1.15 - [Buzzy Bees].png' '¡Saludos!'`
+  - Los parámetros "en blanco" (dos comillas simples) se reemplazan por uno aleatorio de entre los disponibles, p.ej.:
+  `python update_theme.py '' '¡Bienvenidos!'` escogerá un fondo aleatorio y la frase de saludo será `¡Bienvenidos!`
 
-### Update splash and "Packages Installed"...
-#### ...manually
-- Just run `python /boot/grub/themes/minegrub/update_theme.py` (from anywhere) after boot using whatever method works for you
+### Actualizando los mensajes de bienvenida y los paquetes instalados...
+#### ...manualmente
+- Simplemente ejecuta `python /boot/grub/themes/minegrub/update_theme.py` (desde cualquier lugar) tras comprobar que ha funcionado (y tras haber reiniciado) con cualquiera de los métodos antes mencionados.
 
-#### ...with init-d (SysVinit)
-- Just copy the `./minegrub-SysVinit.sh` under `/etc/init.d` as `minecraft-grub` then run `update-rc.d minecraft-grub defaults` as root privileges:
+#### ...con init-d (SysVinit)
+- Copia `./minegrub-SysVinit.sh` a la carpeta `/etc/init.d` como `minecraft-grub`. Una vez hecho ejecuta  `update-rc.d minecraft-grub defaults` con privilegios de root:
 ```bash
 sudo cp -v "./minegrub-SysVinit.sh" "/etc/init.d/minecraft-grub"
-sudo chmod u+x "/etc/init.d/minecraft-grub" # Just to be sure the permissions are set correctly.
+sudo chmod u+x "/etc/init.d/minecraft-grub" # Aseguramos los permisos por precaución
 sudo update-rc.d minecraft-grub defaults
 ```
 
-#### ...with systemd
-- Edit `./minegrub-update.service` to use `/boot/grub2/` on line 5 if applicable
-- Copy `./minegrub-update.service` to `/etc/systemd/system`
-- Enable the service: `systemctl enable minegrub-update.service`
-- If it's not updating after rebooting (it won't update on the first reboot because it updates after you boot into your system), check `systemctl status minegrub-update.service` for any errors (for example if pillow isn't installed in the correct scope)
+#### ...con systemd
+- Si tu sistema usa `grub2` [(Ver la sección de grub más arriba)](#grub) es el momento de editar la **línea número 6** de `./minegrub-update.service` para que use la carpeta correcta `/boot/grub2/`. Debería de quedar así:
+  - `ExecStart=/usr/bin/python3 /boot/grub2/themes/minegrub/update_theme.py`
+- Copia `./minegrub-update.service` a `/etc/systemd/system` (hará falta *sudo*)
+- Activa e inicia el servicio: `sudo systemctl enable --now minegrub-update.service`
+- Es posible que durante el primer reincio no veamos ningún cambio (aunque con el parámetro --now debería haberlo disparado). Si a partir de un segundo reinicio y posteriores seguimos sin ver cambios, comprobaremos si hay errores mediante `systemctl status minegrub-update.service` (p.ej.: si pillow no se ha instalado en el ámbito correcto).
 
-# Notes:
-- the `GRUB_TIMEOUT_STYLE` in the defaults/grub file should be set to `menu`, so it immediately shows the menu (else you would need to press ESC and you dont want that)
-- I'm no Linux expert, that's why I explain it so thoroughly, for other newbies :>
-- i use arch btw
-- i hope u like it, cause i sure do lmao
+# Notas:
+- <a name=style></a>El parámetro `GRUB_TIMEOUT_STYLE` del archivo `/etc/default/grub` debería indicar `menu` para que lo muestre inmediatamente (si no tendremos que pulsar ESC y no queremos eso)
+- No soy ningún experto en Linux, de ahí que las explicacines sean tan exhaustivas, para facilitárselo a otros novatos :>
+- Por cierto, uso Arch. 
+  - *Nota del Traductor:* **¡Y yo también! xD**
+- Espero que os guste, porque a mí sí (*juas*)
 
-### Thanks to
-- https://github.com/toboot for giving me this wonderful idea!
-- the internet for giving me wisdom lmao (Mainly http://wiki.rosalab.ru/en/index.php/Grub2_theme_tutorial)
-- The contributors for contributing and giving me some motivation to improve some little things here and there
-- [Vanilla Tweaks](https://vanillatweaks.net) for some of the backgrounds
+### Gracias a
+- https://github.com/toboot por darme esta maravillosa idea!
+- A internet por darme sabiduría (juas!) (Principalmente http://wiki.rosalab.ru/en/index.php/Grub2_theme_tutorial)
+- A los que contribuyen por aportar y darme motivación para mejorar cosillas aquí y allá
+- [Vanilla Tweaks](https://vanillatweaks.net) por algunos de los fondos
 
 
-Font downloaded from https://www.fontspace.com/minecraft-font-f28180 and used for non commercial use.
+Fuente descargada de https://www.fontspace.com/minecraft-font-f28180 para un uso no comercial.

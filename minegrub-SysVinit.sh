@@ -14,7 +14,7 @@ set -e
 
 PATH="/usr/bin:/bin:/sbin"
 NAME="minecraft-grub"
-DESC="Update the minecraft-grub theme."
+DESC="Actualiza el tema minecraft-grub"
 
 if [[ -d "/boot/grub2" ]] ; then
 	THEME_DIR="/boot/grub2/themes/minegrub"
@@ -29,11 +29,11 @@ case "${1}" in
 		fi
 	;;
 	"stop")
-		echo "${0##*/}: done: nothing to do."
+		echo "${0##*/}: hecho: no había nada que hacer."
 		exit 0
 	;;
 	*)
-		echo "Usage: ${0##*/} start"
+		echo "Uso: ${0##*/} start"
 		exit 3
 	;;
 esac
